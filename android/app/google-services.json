@@ -29,6 +29,13 @@
             {
               "client_id": "149899029254-o355scd84t34mc87sucaembbdm81nn4g.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "149899029254-42glhss7ftjagcho459rou2f5919hpon.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.week7NetworkingDiscussion"
+              }
             }
           ]
         }
