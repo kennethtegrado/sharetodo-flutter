@@ -45,7 +45,7 @@ class _ProfilePageState extends State<ProfilePage> {
               child: Text("No Person Found"),
             );
           }
-
+          print(snapshot.data?.docs);
           Person user = Person.fromJSON(
               snapshot.data?.docs[0].data() as Map<String, dynamic>);
           return Container(
