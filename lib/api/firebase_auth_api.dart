@@ -93,21 +93,11 @@ class FirebaseAuthAPI {
       "fullName": "$firstName $lastName",
       "bio": null,
       "age": null,
-      "birthDay": null
+      "birthDay": null,
+      "friends": [],
+      "friendRequests": [],
+      "sentFriendRequests": [],
+      "userName": null
     });
   }
 }
-
-/*
-  String? id;
-  String? bio;
-  String userName;
-  String firstName;
-  String fullName;
-  String lastName;
-  String? birthDay;
-  List<dynamic> friends = [];
-  List<dynamic> friendRequests = [];
-  List<dynamic> sentFriendRequests = [];
-  int? age;
-*/ 

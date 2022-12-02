@@ -70,6 +70,7 @@ class SignupPageState extends State<SignupPage> {
 
     final firstName = TextFormField(
       key: const Key("firstNameField"),
+      controller: firstNameController,
       decoration: const InputDecoration(hintText: 'First Name'),
       validator: (value) {
         if (value == null || value.isEmpty) {
@@ -81,6 +82,7 @@ class SignupPageState extends State<SignupPage> {
 
     final lastName = TextFormField(
       key: const Key("lastNameField"),
+      controller: lastNameController,
       decoration: const InputDecoration(hintText: 'Last Name'),
       validator: (value) {
         if (value == null || value.isEmpty) {

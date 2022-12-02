@@ -13,7 +13,7 @@ import './search.dart';
 import 'package:week7_networking_discussion/providers/user_provider.dart';
 
 // model
-import '../model/index.dart';
+import 'package:week7_networking_discussion/models/person/index.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -28,6 +28,16 @@ class _ProfilePageState extends State<ProfilePage> {
     Stream<QuerySnapshot> user = context.watch<AuthProvider>().loggedUser;
 
     return Scaffold(
+      drawer: Drawer(
+          child: ListView(padding: EdgeInsets.zero, children: [
+        ListTile(
+          title: const Text('Logout'),
+          onTap: () {
+            context.read<AuthProvider>().signOut();
+            Navigator.pop(context);
+          },
+        ),
+      ])),
       appBar: AppBar(title: const Text("Profile")),
       body: StreamBuilder(
         stream: user,
@@ -42,167 +52,180 @@ class _ProfilePageState extends State<ProfilePage> {
             );
           } else if (!snapshot.hasData) {
             return const Center(
-              child: Text("No Person Found"),
+              child: Text("No User Found"),
             );
           }
-          print(snapshot.data?.docs);
-          Person user = Person.fromJSON(
-              snapshot.data?.docs[0].data() as Map<String, dynamic>);
-          return Container(
-              padding: const EdgeInsets.all(30.0),
-              child: Column(
-                children: [
-                  TopView(name: user.firstName[0]),
-                  Container(
-                    padding: const EdgeInsets.only(left: 10, right: 10),
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      '${user.firstName} ${user.lastName}',
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 20),
-                                    ),
-                                    Text("@${user.userName}",
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.w700,
-                                            color: Colors.amber.shade800)),
-                                  ],
-                                ),
-                                MaterialButton(
-                                  color: Colors.blue,
-                                  shape: const CircleBorder(),
-                                  onPressed: () {
-                                    context
-                                        .read<UserProvider>()
-                                        .getPeopleUserMightKnow(
-                                            userID: user.id.toString());
 
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                const SearchPage()));
-                                  },
-                                  child: const Padding(
-                                      padding: EdgeInsets.all(12),
-                                      child: Icon(
-                                        Icons.search,
-                                        color: Colors.white,
-                                      )),
-                                )
-                              ]),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          const Text("Bio:",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  color: Colors.black54)),
-                          const SizedBox(
-                            height: 5,
-                          ),
-                          Text(user.bio),
-                          const SizedBox(height: 20)
-                        ]),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          return ListView.builder(
+            itemCount: snapshot.data?.docs.length,
+            itemBuilder: ((context, index) {
+              Person user = Person.fromJSON(
+                  snapshot.data?.docs[index].data() as Map<String, dynamic>);
+
+              return Container(
+                  padding: const EdgeInsets.all(30.0),
+                  child: Column(
                     children: [
-                      InkWell(
-                        child: Container(
-                          margin: const EdgeInsets.all(10),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
+                      TopView(name: user.firstName?[0] ?? "U"),
+                      Container(
+                        padding: const EdgeInsets.only(left: 10, right: 10),
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                user.friends.length.toString(),
-                                style: const TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.bold),
-                              ),
-                              const Text("Total"),
-                              const Text("Friends"),
-                            ],
-                          ),
-                        ),
-                        onTap: () {
-                          context
-                              .read<UserProvider>()
-                              .fetchFriends(userID: user.id.toString());
+                              Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          '${user.firstName} ${user.lastName}',
+                                          style: const TextStyle(
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 20),
+                                        ),
+                                        Text("@${user.userName}",
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w700,
+                                                color: Colors.amber.shade800)),
+                                      ],
+                                    ),
+                                    MaterialButton(
+                                      color: Colors.blue,
+                                      shape: const CircleBorder(),
+                                      onPressed: () {
+                                        context
+                                            .read<UserProvider>()
+                                            .getPeopleUserMightKnow(
+                                                userID: user.id.toString());
 
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const FriendsPage()));
-                        },
-                      ),
-                      InkWell(
-                        child: Container(
-                          margin: const EdgeInsets.all(10),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                user.friendRequests.length.toString(),
-                                style: const TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.bold),
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const SearchPage()));
+                                      },
+                                      child: const Padding(
+                                          padding: EdgeInsets.all(12),
+                                          child: Icon(
+                                            Icons.search,
+                                            color: Colors.white,
+                                          )),
+                                    )
+                                  ]),
+                              const SizedBox(
+                                height: 10,
                               ),
-                              const Text("Friend"),
-                              const Text("Requests"),
-                            ],
-                          ),
-                        ),
-                        onTap: () {
-                          context
-                              .read<UserProvider>()
-                              .fetchFriendRequests(userID: user.id.toString());
-
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      const FriendRequestPage()));
-                        },
-                      ),
-                      InkWell(
-                        child: Container(
-                          margin: const EdgeInsets.all(10),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                user.sentFriendRequests.length.toString(),
-                                style: const TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.bold),
+                              const Text("Bio:",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w400,
+                                      color: Colors.black54)),
+                              const SizedBox(
+                                height: 5,
                               ),
-                              const Text("Pending"),
-                              const Text("Requests"),
-                            ],
-                          ),
-                        ),
-                        onTap: () {
-                          context.read<UserProvider>().fetchSentFriendRequests(
-                              userID: user.id.toString());
-
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      const PendingRequestsPage()));
-                        },
+                              const Text("Testing"),
+                              const SizedBox(height: 20)
+                            ]),
                       ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          InkWell(
+                            child: Container(
+                              margin: const EdgeInsets.all(10),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    user.friends.length.toString(),
+                                    style: const TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  const Text("Total"),
+                                  const Text("Friends"),
+                                ],
+                              ),
+                            ),
+                            onTap: () {
+                              context
+                                  .read<UserProvider>()
+                                  .fetchFriends(userID: user.id.toString());
+
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const FriendsPage()));
+                            },
+                          ),
+                          InkWell(
+                            child: Container(
+                              margin: const EdgeInsets.all(10),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    user.friendRequests.length.toString(),
+                                    style: const TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  const Text("Friend"),
+                                  const Text("Requests"),
+                                ],
+                              ),
+                            ),
+                            onTap: () {
+                              context.read<UserProvider>().fetchFriendRequests(
+                                  userID: user.id.toString());
+
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const FriendRequestPage()));
+                            },
+                          ),
+                          InkWell(
+                            child: Container(
+                              margin: const EdgeInsets.all(10),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    user.sentFriendRequests.length.toString(),
+                                    style: const TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  const Text("Pending"),
+                                  const Text("Requests"),
+                                ],
+                              ),
+                            ),
+                            onTap: () {
+                              context
+                                  .read<UserProvider>()
+                                  .fetchSentFriendRequests(
+                                      userID: user.id.toString());
+
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const PendingRequestsPage()));
+                            },
+                          ),
+                        ],
+                      )
                     ],
-                  )
-                ],
-              ));
+                  ));
+            }),
+          );
         },
       ),
     );

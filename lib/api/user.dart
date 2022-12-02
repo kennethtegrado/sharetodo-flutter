@@ -10,7 +10,7 @@ class FirebaseUserAPI {
   static final FirebaseFirestore database = FirebaseFirestore.instance;
 
   final CollectionReference<Map<String, dynamic>> userDatabase =
-      database.collection("user");
+      database.collection("users");
 
   FirebaseUserAPI();
 
@@ -28,8 +28,9 @@ class FirebaseUserAPI {
         [userID]
       ]).snapshots();
 
-  Stream<QuerySnapshot> getUser(String id) =>
-      userDatabase.where("id", isEqualTo: id).snapshots();
+  Stream<QuerySnapshot> getUser(String id) {
+    return userDatabase.where("id", isEqualTo: id).snapshots();
+  }
 
   Future<Map<String, dynamic>> createUser(Map<String, dynamic> user) async {
     final newUserRef = await userDatabase.add(user);
