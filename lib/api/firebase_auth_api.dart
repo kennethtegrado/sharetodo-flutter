@@ -89,7 +89,25 @@ class FirebaseAuthAPI {
       "email": email,
       "id": uid.toString(),
       "firstName": firstName,
-      "lastName": lastName
+      "lastName": lastName,
+      "fullName": "$firstName $lastName",
+      "bio": null,
+      "age": null,
+      "birthDay": null
     });
   }
 }
+
+/*
+  String? id;
+  String? bio;
+  String userName;
+  String firstName;
+  String fullName;
+  String lastName;
+  String? birthDay;
+  List<dynamic> friends = [];
+  List<dynamic> friendRequests = [];
+  List<dynamic> sentFriendRequests = [];
+  int? age;
+*/ 

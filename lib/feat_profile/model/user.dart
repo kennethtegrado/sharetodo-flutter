@@ -2,16 +2,16 @@ import "dart:convert";
 
 class Person {
   String? id;
-  String? bio;
+  String bio;
   String userName;
   String firstName;
   String fullName;
   String lastName;
-  DateTime? birthDay;
+  String birthDay;
   List<dynamic> friends = [];
   List<dynamic> friendRequests = [];
   List<dynamic> sentFriendRequests = [];
-  int? age;
+  int age;
 
   Person(
       {required this.userName,
