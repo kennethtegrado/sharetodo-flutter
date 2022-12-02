@@ -151,8 +151,6 @@ class SignupPageState extends State<SignupPage> {
                   style: TextStyle(fontSize: 25),
                 ),
                 const HelperInfo(),
-                const FirstNameField(),
-                const LastNameField(),
                 firstName,
                 lastName,
                 email,
