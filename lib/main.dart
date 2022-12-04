@@ -8,13 +8,12 @@ import 'package:provider/provider.dart';
 import 'package:week7_networking_discussion/feat_profile/view/profile.dart';
 import 'package:week7_networking_discussion/providers/todo_provider.dart';
 import 'package:week7_networking_discussion/providers/auth_provider.dart';
-import 'package:week7_networking_discussion/screens/todo_page.dart';
-import 'package:week7_networking_discussion/screens/login.dart';
+import 'package:week7_networking_discussion/feat_authentication/views/index.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
 // provider
-import 'package:week7_networking_discussion/feat_profile/provider/index.dart';
+import 'package:week7_networking_discussion/providers/user_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -58,9 +57,7 @@ class MyApp extends StatelessWidget {
       title: 'SimpleTodo',
       initialRoute: '/',
       routes: {'/': (context) => const AuthWrapper()},
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      theme: ThemeData(primarySwatch: Colors.blue, fontFamily: 'Poppins'),
     );
   }
 }
