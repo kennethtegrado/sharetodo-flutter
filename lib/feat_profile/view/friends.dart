@@ -8,10 +8,10 @@ import 'package:week7_networking_discussion/components/index.dart';
 import 'package:week7_networking_discussion/providers/auth_provider.dart';
 
 // provder
-import '../provider/index.dart';
+import 'package:week7_networking_discussion/providers/index.dart';
 
 // model
-import '../model/index.dart';
+import 'package:week7_networking_discussion/models/index.dart';
 
 class FriendsPage extends StatefulWidget {
   const FriendsPage({super.key});
@@ -82,7 +82,7 @@ class _FriendsPageState extends State<FriendsPage> {
                                   height: 50,
                                   child: Center(
                                       child: Text(
-                                    user.userName[0].toUpperCase(),
+                                    user.firstName[0].toUpperCase(),
                                     style: const TextStyle(
                                         color: Color.fromARGB(255, 32, 32, 35),
                                         fontSize: 20,

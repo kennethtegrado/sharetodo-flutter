@@ -8,10 +8,10 @@ import 'package:week7_networking_discussion/components/index.dart';
 import 'package:week7_networking_discussion/providers/auth_provider.dart';
 
 // provder
-import '../provider/index.dart';
+import 'package:week7_networking_discussion/providers/index.dart';
 
 // model
-import '../model/index.dart';
+import 'package:week7_networking_discussion/models/index.dart';
 
 class FriendRequestPage extends StatefulWidget {
   const FriendRequestPage({super.key});
@@ -84,7 +84,7 @@ class _FriendRequestPageState extends State<FriendRequestPage> {
                                   height: 50,
                                   child: Center(
                                       child: Text(
-                                    requesterUser.userName[0].toUpperCase(),
+                                    requesterUser.firstName[0].toUpperCase(),
                                     style: const TextStyle(
                                         color: Color.fromARGB(255, 32, 32, 35),
                                         fontSize: 20,
