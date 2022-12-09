@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 // model
-import '../feat_profile/model/index.dart';
+import 'package:week7_networking_discussion/models/index.dart';
 
 // api import
-import '../feat_profile/api/index.dart';
+import 'package:week7_networking_discussion/api/index.dart';
 
 class UserProvider with ChangeNotifier {
   FirebaseUserAPI firebaseService = FirebaseUserAPI();
