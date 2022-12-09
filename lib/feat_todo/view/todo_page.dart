@@ -38,12 +38,20 @@ class _TodoPageState extends State<TodoPage> {
           onTap: () {
             context.read<AuthProvider>().signOut();
             Navigator.pop(context);
+            Navigator.pop(context);
           },
         ),
+        ListTile(
+          title: const Text('Profile'),
+          onTap: () {
+            Navigator.pop(context);
+            Navigator.pop(context);
+          },
+        )
       ])),
       appBar: AppBar(
         title: Text(
-          "Profile",
+          "Todo",
           style: TextStyle(
               color: BrandColor.background.shade600,
               fontWeight: FontWeight.w700),
