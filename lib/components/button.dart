@@ -6,9 +6,9 @@ class Button extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const ElevatedButton(
+    return ElevatedButton(
       onPressed: null,
-      child: Text("Hello World"),
+      child: Text(text),
     );
   }
 }
