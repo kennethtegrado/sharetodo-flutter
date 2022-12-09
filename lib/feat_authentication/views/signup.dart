@@ -3,7 +3,9 @@ import 'package:provider/provider.dart';
 import 'package:week7_networking_discussion/providers/auth_provider.dart';
 import 'package:week7_networking_discussion/utils/response.dart';
 import 'package:week7_networking_discussion/utils/validate_email.dart';
-import 'package:week7_networking_discussion/screens/components/compound/response_box.dart';
+
+// component import
+import './components/compound/response_box.dart';
 
 class SignupPage extends StatefulWidget {
   const SignupPage({super.key});

@@ -1,9 +1,16 @@
+// lib import
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:week7_networking_discussion/providers/auth_provider.dart';
-import 'package:week7_networking_discussion/screens/signup.dart';
 import 'package:week7_networking_discussion/utils/response.dart';
-import 'package:week7_networking_discussion/screens/components/compound/response_box.dart';
+
+// provider import
+import 'package:week7_networking_discussion/providers/auth_provider.dart';
+
+// page import
+import './signup.dart';
+
+// component import
+import './components/compound/response_box.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});

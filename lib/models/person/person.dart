@@ -4,8 +4,8 @@ class Person {
   String? id;
   String? bio;
   String? userName;
-  String? firstName;
-  String? fullName;
+  String firstName;
+  String fullName;
   String? lastName;
   DateTime? birthDay;
   String email;

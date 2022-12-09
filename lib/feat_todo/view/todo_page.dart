@@ -9,8 +9,13 @@ import 'package:provider/provider.dart';
 import 'package:week7_networking_discussion/models/todo_model.dart';
 import 'package:week7_networking_discussion/providers/todo_provider.dart';
 import 'package:week7_networking_discussion/providers/auth_provider.dart';
-import 'package:week7_networking_discussion/screens/modal_todo.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+
+// Component
+import './modal_todo.dart';
+
+// Brand
+import 'package:week7_networking_discussion/config/theme/index.dart';
 
 class TodoPage extends StatefulWidget {
   const TodoPage({super.key});
@@ -37,7 +42,20 @@ class _TodoPageState extends State<TodoPage> {
         ),
       ])),
       appBar: AppBar(
-        title: Text("Todo"),
+        title: Text(
+          "Profile",
+          style: TextStyle(
+              color: BrandColor.background.shade600,
+              fontWeight: FontWeight.w700),
+        ),
+        leading: Builder(
+            builder: (context) => IconButton(
+                  icon: const Icon(Icons.sort),
+                  color: BrandColor.background.shade600,
+                  onPressed: () => Scaffold.of(context).openDrawer(),
+                )),
+        backgroundColor: BrandColor.primary.shade50,
+        shadowColor: const Color.fromRGBO(255, 255, 255, 1).withOpacity(0),
       ),
       body: StreamBuilder(
         stream: todosStream,
@@ -47,11 +65,11 @@ class _TodoPageState extends State<TodoPage> {
               child: Text("Error encountered! ${snapshot.error}"),
             );
           } else if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
+            return const Center(
               child: CircularProgressIndicator(),
             );
           } else if (!snapshot.hasData) {
-            return Center(
+            return const Center(
               child: Text("No Todos Found"),
             );
           }
@@ -78,10 +96,10 @@ class _TodoPageState extends State<TodoPage> {
                   title: Text(todo.title),
                   leading: Checkbox(
                     value: todo.completed,
-                    onChanged: (bool? value) {
-                      context
+                    onChanged: (bool? value) async {
+                      await context
                           .read<TodoListProvider>()
-                          .toggleStatus(index, value!);
+                          .toggleStatus(todo.id ?? "", value!);
                     },
                   ),
                   trailing: Row(
