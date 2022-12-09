@@ -6,7 +6,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:week7_networking_discussion/models/todo_model.dart';
+import 'package:week7_networking_discussion/models/todo/index.dart';
 import 'package:week7_networking_discussion/providers/todo_provider.dart';
 import 'package:week7_networking_discussion/providers/auth_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -29,8 +29,10 @@ class _TodoPageState extends State<TodoPage> {
   Widget build(BuildContext context) {
     // access the list of todos in the provider
     Stream<QuerySnapshot> todosStream = context.watch<TodoListProvider>().todos;
+    String? userId = context.watch<AuthProvider>().userId;
 
     return Scaffold(
+      backgroundColor: BrandColor.primary.shade50,
       drawer: Drawer(
           child: ListView(padding: EdgeInsets.zero, children: [
         ListTile(
@@ -87,11 +89,12 @@ class _TodoPageState extends State<TodoPage> {
             itemBuilder: ((context, index) {
               Todo todo = Todo.fromJson(
                   snapshot.data?.docs[index].data() as Map<String, dynamic>);
+
               return Dismissible(
                 key: Key(todo.id.toString()),
                 onDismissed: (direction) {
-                  context.read<TodoListProvider>().changeSelectedTodo(todo);
-                  context.read<TodoListProvider>().deleteTodo();
+                  // context.read<TodoListProvider>().changeSelectedTodo(todo);
+                  context.read<TodoListProvider>().deleteTodo(todo.id ?? "");
 
                   ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(content: Text('${todo.title} dismissed')));
@@ -115,26 +118,26 @@ class _TodoPageState extends State<TodoPage> {
                     children: [
                       IconButton(
                         onPressed: () {
-                          // showDialog(
-                          //   context: context,
-                          //   builder: (BuildContext context) => TodoModal(
-                          //     type: 'Edit',
-                          //     todoIndex: index,
-                          //   ),
-                          // );
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) => TodoModal(
+                              type: 'Edit',
+                              createdBy: userId ?? "",
+                              id: todo.id,
+                            ),
+                          );
                         },
                         icon: const Icon(Icons.create_outlined),
                       ),
                       IconButton(
                         onPressed: () {
-                          context
-                              .read<TodoListProvider>()
-                              .changeSelectedTodo(todo);
                           showDialog(
                             context: context,
                             builder: (BuildContext context) => TodoModal(
-                              type: 'Delete',
-                            ),
+                                type: 'Delete',
+                                createdBy: userId ?? "",
+                                id: todo.id,
+                                title: todo.title),
                           );
                         },
                         icon: const Icon(Icons.delete_outlined),
@@ -153,6 +156,7 @@ class _TodoPageState extends State<TodoPage> {
             context: context,
             builder: (BuildContext context) => TodoModal(
               type: 'Add',
+              createdBy: userId ?? "",
             ),
           );
         },

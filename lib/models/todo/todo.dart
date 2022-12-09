@@ -8,9 +8,8 @@ import 'dart:convert';
 
 class Todo {
   String createdBy;
-  String id;
+  String? id;
   String title;
-  String description;
   bool completed;
   DateTime dateCreated;
   DateTime? lastEditDate;
@@ -19,28 +18,27 @@ class Todo {
 
   Todo(
       {required this.createdBy,
-      required this.id,
+      this.id,
       required this.title,
       required this.completed,
       required this.dateCreated,
-      required this.lastEditDate,
-      required this.lastEditBy,
-      required this.dueDate,
-      required this.description});
+      this.lastEditDate,
+      this.lastEditBy,
+      this.dueDate});
 
   // Factory constructor to instantiate object from json format
   factory Todo.fromJson(Map<String, dynamic> json) {
     return Todo(
-        createdBy: json['userId'],
-        id: json['id'],
-        title: json['title'],
-        completed: json['completed'],
-        dateCreated: DateTime.parse(json["dateCreated"]),
-        lastEditDate:
-            json['lastEditDate'] ?? DateTime.parse(json["lastEditDate"]),
-        lastEditBy: json['lastEditBy'],
-        dueDate: json['dueDate'],
-        description: json['description']);
+      createdBy: json['createdBy'],
+      id: json['id'],
+      title: json['title'],
+      completed: json['completed'],
+      dateCreated: DateTime.parse(json["dateCreated"]),
+      // lastEditDate:
+      //     json['lastEditDate'] ?? DateTime.parse(json["lastEditDate"]),
+      // lastEditBy: json['lastEditBy'],
+      // dueDate: json['dueDate'],
+    );
   }
 
   static List<Todo> fromJsonArray(String jsonData) {
@@ -50,9 +48,25 @@ class Todo {
 
   static Map<String, dynamic> toJson(Todo todo) {
     return {
-      'userId': todo.createdBy,
+      'createdBy': todo.createdBy,
       'title': todo.title,
       'completed': todo.completed,
+      'dateCreated': todo.dateCreated.toString(),
+      'lastEditDate': todo.lastEditDate,
+      'lastEditBy': todo.lastEditBy,
+      "dueDate": todo.dueDate
     };
   }
 }
+
+/*
+      createdBy: json['userId'],
+      id: json['id'],
+      title: json['title'],
+      completed: json['completed'],
+      dateCreated: DateTime.parse(json["dateCreated"]),
+      lastEditDate:
+          json['lastEditDate'] ?? DateTime.parse(json["lastEditDate"]),
+      lastEditBy: json['lastEditBy'],
+      dueDate: json['dueDate'],
+*/ 

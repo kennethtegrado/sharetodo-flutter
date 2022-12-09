@@ -6,7 +6,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:week7_networking_discussion/api/firebase_todo_api.dart';
-import 'package:week7_networking_discussion/models/todo_model.dart';
+import 'package:week7_networking_discussion/models/todo/index.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class TodoListProvider with ChangeNotifier {
@@ -33,26 +33,24 @@ class TodoListProvider with ChangeNotifier {
   }
 
   void addTodo(Todo item) async {
-    String message = await firebaseService.addTodo(item.toJson(item));
+    String message = await firebaseService.addTodo(Todo.toJson(item));
     print(message);
     notifyListeners();
   }
 
-  void editTodo(int index, String newTitle) {
+  void editTodo(String id, String newTitle) async {
     // _todoList[index].title = newTitle;
-    print("Edit");
+    await firebaseService.editTodo(id, newTitle);
     notifyListeners();
   }
 
-  void deleteTodo() async {
-    String message = await firebaseService.deleteTodo(_selectedTodo!.id);
-    print(message);
+  void deleteTodo(String id) async {
+    await firebaseService.deleteTodo(id);
+
     notifyListeners();
   }
 
   Future toggleStatus(String id, bool status) async {
-    // _todoList[index].completed = status;
-    // print("Toggle Status");
     await firebaseService.toggleTodoStatus(id, status);
     notifyListeners();
   }

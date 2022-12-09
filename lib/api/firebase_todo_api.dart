@@ -38,4 +38,12 @@ class FirebaseTodoAPI {
       print(e);
     }
   }
+
+  Future editTodo(String id, String title) async {
+    try {
+      await todoDatabase.doc(id).update({"title": title});
+    } catch (e) {
+      print(e);
+    }
+  }
 }
