@@ -97,7 +97,7 @@ class FirebaseAuthAPI {
       "friends": [],
       "friendRequests": [],
       "sentFriendRequests": [],
-      "userName": null
+      "userName": "${firstName[0]}$lastName"
     });
   }
 }

@@ -4,11 +4,12 @@ import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 class FirebaseTodoAPI {
   static final FirebaseFirestore db = FirebaseFirestore.instance;
   // final db = FakeFirebaseFirestore();
+  final todoDatabase = db.collection("todos");
 
   Future<String> addTodo(Map<String, dynamic> todo) async {
     try {
-      final docRef = await db.collection("todos").add(todo);
-      await db.collection("todos").doc(docRef.id).update({'id': docRef.id});
+      final docRef = await todoDatabase.add(todo);
+      await todoDatabase.doc(docRef.id).update({'id': docRef.id});
 
       return "Successfully added todo!";
     } on FirebaseException catch (e) {
@@ -17,16 +18,24 @@ class FirebaseTodoAPI {
   }
 
   Stream<QuerySnapshot> getAllTodos() {
-    return db.collection("todos").snapshots();
+    return todoDatabase.snapshots();
   }
 
   Future<String> deleteTodo(String? id) async {
     try {
-      await db.collection("todos").doc(id).delete();
+      await todoDatabase.doc(id).delete();
 
       return "Successfully deleted todo!";
     } on FirebaseException catch (e) {
       return "Failed with error '${e.code}: ${e.message}";
+    }
+  }
+
+  Future toggleTodoStatus(String id, bool status) async {
+    try {
+      await todoDatabase.doc(id).update({"completed": status});
+    } catch (e) {
+      print(e);
     }
   }
 }

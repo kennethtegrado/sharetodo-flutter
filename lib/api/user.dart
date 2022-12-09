@@ -1,10 +1,5 @@
+// lib import
 import 'package:cloud_firestore/cloud_firestore.dart';
-
-// model
-import '../feat_profile/model/index.dart';
-
-// faking data
-import "dart:math";
 
 class FirebaseUserAPI {
   static final FirebaseFirestore database = FirebaseFirestore.instance;
@@ -95,54 +90,5 @@ class FirebaseUserAPI {
     await userDatabase.doc(receiverFriendRequestID).update({
       "friendRequests": FieldValue.arrayUnion([senderFriendRequestID]),
     });
-  }
-
-  Future populateUser(List<Map<String, dynamic>> users) async {
-    Person? firstUser;
-    bool alreadyHaveUser = false;
-
-    Random random = Random();
-
-    for (Map<String, dynamic> user in users) {
-      Map<String, dynamic> newUserJson = await createUser(user);
-      Person newUser = Person.fromJSON(newUserJson);
-
-      if (!alreadyHaveUser) {
-        firstUser = newUser;
-        alreadyHaveUser = true;
-        continue;
-      }
-
-      int whoShouldAdd = random.nextInt(2);
-      int shouldAccept = random.nextInt(2);
-      int shouldDoLogic = random.nextInt(2);
-
-      if (shouldDoLogic == 0) {
-        continue;
-      }
-
-      switch (whoShouldAdd) {
-        case 0:
-          await sendFriendRequest(
-              senderFriendRequestID: firstUser!.id.toString(),
-              receiverFriendRequestID: newUser.id.toString());
-          if (shouldAccept == 0) {
-            await acceptFriendRequest(
-                senderFriendRequestID: firstUser.id.toString(),
-                receiverFriendRequestID: newUser.id.toString());
-          }
-          break;
-        case 1:
-          await sendFriendRequest(
-              senderFriendRequestID: newUser.id.toString(),
-              receiverFriendRequestID: firstUser!.id.toString());
-          if (shouldAccept == 0) {
-            await acceptFriendRequest(
-                senderFriendRequestID: newUser.id.toString(),
-                receiverFriendRequestID: firstUser.id.toString());
-          }
-          break;
-      }
-    }
   }
 }
