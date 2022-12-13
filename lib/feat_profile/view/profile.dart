@@ -454,7 +454,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
               ),
               Container(
-                padding: const EdgeInsets.all(30),
+                padding: const EdgeInsets.all(40),
                 child: Row(
                   children: [
                     Expanded(
@@ -463,13 +463,16 @@ class _ProfilePageState extends State<ProfilePage> {
                         onPressed: () {
                           // Button press logic
                         },
-                        style: const ButtonStyle(
-                          padding: EdgeInsets.only(),
-                        ),
-                        child: Text('View Todos of Friends',
-                            style: TextStyle(
-                                fontSize: 18,
-                                color: BrandColor.primary.shade600)),
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: BrandColor.primary,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30))),
+                        child: Padding(
+                            padding: const EdgeInsets.only(top: 10, bottom: 10),
+                            child: Text('View Todos of Friends',
+                                style: TextStyle(
+                                    fontSize: 18,
+                                    color: BrandColor.primary.shade50))),
                       ),
                     ),
                   ],
