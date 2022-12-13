@@ -35,6 +35,8 @@ class _ProfilePageState extends State<ProfilePage> {
     Stream<QuerySnapshot> user = context.watch<AuthProvider>().loggedUser;
     String? id = context.watch<AuthProvider>().userId;
 
+    TextEditingController _bioEditController = TextEditingController();
+
     return Scaffold(
       backgroundColor: BrandColor.primary.shade50,
       drawer: Drawer(
@@ -175,7 +177,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       top: 130,
                       right: 25,
                       child: Container(
-                        width: 60,
+                        width: 80,
                         decoration: BoxDecoration(
                             boxShadow: [
                               BoxShadow(
@@ -198,20 +200,63 @@ class _ProfilePageState extends State<ProfilePage> {
                                   borderRadius: BorderRadius.circular(18.0),
                                 )),
                             onPressed: () {
-                              context
-                                  .read<UserProvider>()
-                                  .getPeopleUserMightKnow(
-                                      userID: user.id.toString());
+                              showModalBottomSheet(
+                                context: context,
+                                builder: (builder) {
+                                  return Container(
+                                    padding: const EdgeInsets.all(30),
+                                    height: 200,
+                                    child: Column(
+                                      children: [
+                                        TextField(
+                                          decoration: const InputDecoration(
+                                            labelText: 'Bio',
+                                          ),
+                                          controller: _bioEditController,
+                                        ),
+                                        const SizedBox(
+                                          height: 20,
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                          children: [
+                                            ElevatedButton(
+                                              onPressed: () async {
+                                                // Submit the bio
+                                                await context
+                                                    .read<AuthProvider>()
+                                                    .updateBio(
+                                                        userID: id ?? "",
+                                                        bio: _bioEditController
+                                                            .text);
 
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const SearchPage()));
+                                                // ignore: use_build_context_synchronously
+                                                Navigator.pop(context);
+                                              },
+                                              child: const Text('Submit'),
+                                            ),
+                                            const SizedBox(
+                                              width: 10,
+                                            ),
+                                            ElevatedButton(
+                                              onPressed: () {
+                                                // Cancel and close the modal
+                                                Navigator.pop(context);
+                                              },
+                                              child: const Text('Cancel'),
+                                            ),
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                  );
+                                },
+                              );
                             },
                             child: Center(
                                 child: Text(
-                              "Edit",
+                              user.bio == null ? "Add Bio" : "Edit Bio",
                               style: TextStyle(
                                   color: BrandColor.primary,
                                   fontSize: 12,
@@ -220,90 +265,215 @@ class _ProfilePageState extends State<ProfilePage> {
                       ))
                 ],
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  InkWell(
-                    child: Container(
-                      margin: const EdgeInsets.all(10),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Text("Friends"),
-                          Text(
-                            user.friends.length.toString(),
-                            style: const TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.bold),
+              const SizedBox(
+                height: 10,
+              ),
+              Container(
+                padding: const EdgeInsets.only(left: 25, right: 25),
+                child: Column(
+                  children: [
+                    user.bio != null
+                        ? Container(
+                            margin: const EdgeInsets.all(10),
+                            padding: const EdgeInsets.all(20),
+                            decoration: BoxDecoration(
+                              color: BrandColor.primary.shade50,
+                              borderRadius: BorderRadius.circular(10),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: BrandColor.primary.withOpacity(0.25),
+                                  offset: const Offset(0, 4),
+                                  blurRadius: 6,
+                                ),
+                              ],
+                            ),
+                            child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "About Me",
+                                    style: TextStyle(
+                                        color: BrandColor.background.shade400,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 15),
+                                    textAlign: TextAlign.start,
+                                  ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  Text(user.bio!)
+                                ]),
+                          )
+                        : const SizedBox(),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Expanded(
+                          child: InkWell(
+                            child: Container(
+                              margin: const EdgeInsets.all(10),
+                              padding: const EdgeInsets.all(15),
+                              decoration: BoxDecoration(
+                                color: BrandColor.primary.shade50,
+                                borderRadius: BorderRadius.circular(10),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: BrandColor.primary.withOpacity(0.25),
+                                    offset: const Offset(0, 4),
+                                    blurRadius: 6,
+                                  ),
+                                ],
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "Friends",
+                                    style: TextStyle(
+                                        color: BrandColor.background.shade400),
+                                  ),
+                                  Text(
+                                    user.friends.length.toString(),
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                        color: BrandColor.primary.shade600),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            onTap: () {
+                              context
+                                  .read<UserProvider>()
+                                  .fetchFriends(userID: user.id.toString());
+
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const FriendsPage()));
+                            },
                           ),
-                        ],
+                        ),
+                        Expanded(
+                          child: InkWell(
+                            child: Container(
+                              margin: const EdgeInsets.all(10),
+                              padding: const EdgeInsets.all(15),
+                              decoration: BoxDecoration(
+                                color: BrandColor.primary.shade50,
+                                borderRadius: BorderRadius.circular(10),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: BrandColor.primary.withOpacity(0.25),
+                                    offset: const Offset(0, 4),
+                                    blurRadius: 6,
+                                  ),
+                                ],
+                              ),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text("Request",
+                                      style: TextStyle(
+                                          color:
+                                              BrandColor.background.shade400)),
+                                  Text(
+                                    user.friendRequests.length.toString(),
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                        color: BrandColor.primary.shade600),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            onTap: () {
+                              context.read<UserProvider>().fetchFriendRequests(
+                                  userID: user.id.toString());
+
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const FriendRequestPage()));
+                            },
+                          ),
+                        ),
+                        Expanded(
+                          child: InkWell(
+                            child: Container(
+                              margin: const EdgeInsets.all(10),
+                              padding: const EdgeInsets.all(15),
+                              decoration: BoxDecoration(
+                                color: BrandColor.primary.shade50,
+                                borderRadius: BorderRadius.circular(10),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: BrandColor.primary.withOpacity(0.25),
+                                    offset: const Offset(0, 4),
+                                    blurRadius: 6,
+                                  ),
+                                ],
+                              ),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text("Pending",
+                                      style: TextStyle(
+                                          color:
+                                              BrandColor.background.shade400)),
+                                  Text(
+                                    user.sentFriendRequests.length.toString(),
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                        color: BrandColor.primary.shade600),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            onTap: () {
+                              context
+                                  .read<UserProvider>()
+                                  .fetchSentFriendRequests(
+                                      userID: user.id.toString());
+
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const PendingRequestsPage()));
+                            },
+                          ),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+              ),
+              Container(
+                padding: const EdgeInsets.all(30),
+                child: Row(
+                  children: [
+                    Expanded(
+                      flex: 1,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          // Button press logic
+                        },
+                        style: const ButtonStyle(
+                          padding: EdgeInsets.only(),
+                        ),
+                        child: Text('View Todos of Friends',
+                            style: TextStyle(
+                                fontSize: 18,
+                                color: BrandColor.primary.shade600)),
                       ),
                     ),
-                    onTap: () {
-                      context
-                          .read<UserProvider>()
-                          .fetchFriends(userID: user.id.toString());
-
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const FriendsPage()));
-                    },
-                  ),
-                  InkWell(
-                    child: Container(
-                      margin: const EdgeInsets.all(10),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Text("Requests"),
-                          Text(
-                            user.friendRequests.length.toString(),
-                            style: const TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.bold),
-                          ),
-                        ],
-                      ),
-                    ),
-                    onTap: () {
-                      context
-                          .read<UserProvider>()
-                          .fetchFriendRequests(userID: user.id.toString());
-
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const FriendRequestPage()));
-                    },
-                  ),
-                  InkWell(
-                    child: Container(
-                      margin: const EdgeInsets.all(10),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Text("Pending"),
-                          Text(
-                            user.sentFriendRequests.length.toString(),
-                            style: const TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.bold),
-                          ),
-                        ],
-                      ),
-                    ),
-                    onTap: () {
-                      context
-                          .read<UserProvider>()
-                          .fetchSentFriendRequests(userID: user.id.toString());
-
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  const PendingRequestsPage()));
-                    },
-                  ),
-                ],
+                  ],
+                ),
               )
             ],
           );

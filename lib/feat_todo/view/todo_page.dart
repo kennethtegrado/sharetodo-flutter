@@ -55,17 +55,16 @@ class _TodoPageState extends State<TodoPage> {
         title: Text(
           "Todo",
           style: TextStyle(
-              color: BrandColor.background.shade600,
-              fontWeight: FontWeight.w700),
+              color: BrandColor.primary.shade50, fontWeight: FontWeight.w700),
         ),
         leading: Builder(
             builder: (context) => IconButton(
                   icon: const Icon(Icons.sort),
-                  color: BrandColor.background.shade600,
+                  color: BrandColor.primary.shade50,
                   onPressed: () => Scaffold.of(context).openDrawer(),
                 )),
-        backgroundColor: BrandColor.primary.shade50,
-        shadowColor: const Color.fromRGBO(255, 255, 255, 1).withOpacity(0),
+        backgroundColor: BrandColor.primary,
+        shadowColor: BrandColor.primary.shade600,
       ),
       body: StreamBuilder(
         stream: todosStream,
@@ -151,6 +150,8 @@ class _TodoPageState extends State<TodoPage> {
         },
       ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: BrandColor.primary,
+        foregroundColor: BrandColor.primary.shade50,
         onPressed: () {
           showDialog(
             context: context,

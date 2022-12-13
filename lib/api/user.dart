@@ -91,4 +91,8 @@ class FirebaseUserAPI {
       "friendRequests": FieldValue.arrayUnion([senderFriendRequestID]),
     });
   }
+
+  Future updateBio({required String userID, required String bio}) async {
+    await userDatabase.doc(userID).update({"bio": bio});
+  }
 }

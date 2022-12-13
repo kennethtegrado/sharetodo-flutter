@@ -55,6 +55,10 @@ class AuthProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  Future updateBio({required String userID, required String bio}) async {
+    await userService.updateBio(userID: userID, bio: bio);
+  }
+
   Future<Response> signUp(
       {required String email,
       required String password,
