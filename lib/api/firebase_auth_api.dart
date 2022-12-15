@@ -94,7 +94,7 @@ class FirebaseAuthAPI {
       "lastName": lastName,
       "fullName": "$firstName $lastName",
       "bio": null,
-      "birthDay": birthday,
+      "birthDay": birthday.toString(),
       "friends": [],
       "friendRequests": [],
       "sentFriendRequests": [],

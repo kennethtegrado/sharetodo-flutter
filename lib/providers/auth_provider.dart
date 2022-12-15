@@ -12,6 +12,7 @@ class AuthProvider with ChangeNotifier {
   User? userObj;
   Response? _response;
   late Stream<QuerySnapshot> loggedUser;
+  late Stream<QuerySnapshot> clickedFriend;
   String? userId;
 
   AuthProvider() {
@@ -59,6 +60,16 @@ class AuthProvider with ChangeNotifier {
     await userService.updateBio(userID: userID, bio: bio);
   }
 
+  Future updateBirthday(
+      {required String userID, required String birthday}) async {
+    await userService.updateBirthday(userID: userID, birthday: birthday);
+  }
+
+  Future updateLocation(
+      {required String userID, required String location}) async {
+    await userService.updateLocation(userID: userID, location: location);
+  }
+
   Future<Response> signUp(
       {required String email,
       required String password,
@@ -76,5 +87,10 @@ class AuthProvider with ChangeNotifier {
     _response = response;
     notifyListeners();
     return response;
+  }
+
+  void getFriend({required String id}) {
+    clickedFriend = userService.getUser(id);
+    notifyListeners();
   }
 }

@@ -7,6 +7,7 @@ class Person {
   String firstName;
   String fullName;
   String lastName;
+  String location;
   DateTime birthDay;
   String email;
   List<dynamic> friends = [];
@@ -26,7 +27,8 @@ class Person {
       required this.friendRequests,
       required this.sentFriendRequests,
       required this.fullName,
-      required this.email});
+      required this.email,
+      required this.location});
 
   factory Person.fromJSON(Map<String, dynamic> json) {
     return Person(
@@ -35,13 +37,14 @@ class Person {
         lastName: json["lastName"],
         id: json["id"],
         bio: json["bio"],
-        birthDay: json["birthDay"],
+        birthDay: DateTime.parse(json["birthDay"]),
         age: DateTime.now().year - DateTime.parse(json["birthDay"]).year,
         friends: json["friends"],
         sentFriendRequests: json["sentFriendRequests"],
         friendRequests: json["friendRequests"],
         fullName: '${json["firstName"]} ${json["lastName"]}',
-        email: json["email"]);
+        email: json["email"],
+        location: json["location"]);
   }
 
   static List<Person> fromJsonArray(String jsonData) {

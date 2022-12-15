@@ -95,4 +95,14 @@ class FirebaseUserAPI {
   Future updateBio({required String userID, required String bio}) async {
     await userDatabase.doc(userID).update({"bio": bio});
   }
+
+  Future updateBirthday(
+      {required String userID, required String birthday}) async {
+    await userDatabase.doc(userID).update({"birthDay": birthday});
+  }
+
+  Future updateLocation(
+      {required String userID, required String location}) async {
+    await userDatabase.doc(userID).update({"location": location});
+  }
 }

@@ -19,13 +19,13 @@ class SignupPage extends StatefulWidget {
 class SignupPageState extends State<SignupPage> {
   final _formKey = GlobalKey<FormState>();
 
-  DateTime? bday;
+  // DateTime? bday;
 
-  setBirthday(DateTime birthday) {
-    setState(() {
-      bday = birthday;
-    });
-  }
+  // setBirthday(DateTime birthday) {
+  //   setState(() {
+  //     bday = birthday;
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +34,7 @@ class SignupPageState extends State<SignupPage> {
     TextEditingController firstNameController = TextEditingController();
     TextEditingController lastNameController = TextEditingController();
     TextEditingController locationController = TextEditingController();
+    TextEditingController bdayController = TextEditingController();
 
     final email = TextFormField(
       key: const Key("emailField"),
@@ -59,7 +60,8 @@ class SignupPageState extends State<SignupPage> {
       decoration: const InputDecoration(
           hintText: 'Password',
           helperText:
-              "Password must be at least 8 characters long with at least a number, a special character, and both uppercase and lowercase letters."),
+              "Password must be at least 8 characters long with at least a number, a special character, and both uppercase and lowercase letters.",
+          helperMaxLines: 5),
       validator: (value) {
         if (value == null || value.isEmpty) {
           return "Please put your password.";
@@ -99,23 +101,27 @@ class SignupPageState extends State<SignupPage> {
       },
     );
 
-    final birthday = DateTimeFormField(
+    final birthday = TextFormField(
+      key: const Key("bdayField"),
+      controller: bdayController,
       decoration: const InputDecoration(
-        hintStyle: TextStyle(color: Colors.black45),
-        errorStyle: TextStyle(color: Colors.redAccent),
-        border: UnderlineInputBorder(),
-        suffixIcon: Icon(Icons.event_note),
-        labelText: 'Birthday',
-      ),
-      mode: DateTimeFieldPickerMode.date,
-      autovalidateMode: AutovalidateMode.always,
-      validator: (value) =>
-          value == null ? "Please place your birthday!" : null,
-      onDateSelected: (DateTime value) {
-        setBirthday(value);
+          hintText: 'Birthday', helperText: "Format must be in YYYY-MM-DD."),
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return "Please put your birthday.";
+        }
+
+        RegExp r = RegExp(r"^[1-2][0-9]{3}\-[0-1][0-9]\-[0-3][0-9]$");
+
+        if (!r.hasMatch(value)) {
+          return "Please put a valid birthday!";
+        }
+
+        return null;
       },
     );
 
+  
     final location = TextFormField(
       key: const Key("locationField"),
       controller: locationController,
@@ -139,15 +145,13 @@ class SignupPageState extends State<SignupPage> {
               content: Text("Processing data..."),
             ));
 
-            if (bday == null) return;
-
             Response response = await context.read<AuthProvider>().signUp(
                 email: emailController.text,
                 password: passwordController.text,
                 firstName: firstNameController.text,
                 lastName: lastNameController.text,
                 location: locationController.text,
-                birthday: bday ?? DateTime.now());
+                birthday: DateTime.parse(birthday.controller!.text));
 
             if (response is SuccessResponse) {
               // reset all forms
@@ -196,9 +200,6 @@ class SignupPageState extends State<SignupPage> {
                 firstName,
                 lastName,
                 email,
-                const SizedBox(
-                  height: 15,
-                ),
                 birthday,
                 location,
                 password,

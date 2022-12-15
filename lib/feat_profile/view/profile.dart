@@ -6,6 +6,9 @@ import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:week7_networking_discussion/providers/auth_provider.dart';
 
+// component import
+import './editProfile.dart';
+
 // Pages Import
 import './friend_requests.dart';
 import './friends.dart';
@@ -36,6 +39,21 @@ class _ProfilePageState extends State<ProfilePage> {
     String? id = context.watch<AuthProvider>().userId;
 
     TextEditingController _bioEditController = TextEditingController();
+
+    List<String> months = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December"
+    ];
 
     return Scaffold(
       backgroundColor: BrandColor.primary.shade50,
@@ -97,7 +115,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
           Person user = Person.fromJSON(
               snapshot.data?.docs[0].data() as Map<String, dynamic>);
-          return Column(
+          return ListView(
             children: [
               Stack(
                 children: [
@@ -200,59 +218,10 @@ class _ProfilePageState extends State<ProfilePage> {
                                   borderRadius: BorderRadius.circular(18.0),
                                 )),
                             onPressed: () {
-                              showModalBottomSheet(
-                                context: context,
-                                builder: (builder) {
-                                  return Container(
-                                    padding: const EdgeInsets.all(30),
-                                    height: 200,
-                                    child: Column(
-                                      children: [
-                                        TextField(
-                                          decoration: const InputDecoration(
-                                            labelText: 'Bio',
-                                          ),
-                                          controller: _bioEditController,
-                                        ),
-                                        const SizedBox(
-                                          height: 20,
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.end,
-                                          children: [
-                                            ElevatedButton(
-                                              onPressed: () async {
-                                                // Submit the bio
-                                                await context
-                                                    .read<AuthProvider>()
-                                                    .updateBio(
-                                                        userID: id ?? "",
-                                                        bio: _bioEditController
-                                                            .text);
-
-                                                // ignore: use_build_context_synchronously
-                                                Navigator.pop(context);
-                                              },
-                                              child: const Text('Submit'),
-                                            ),
-                                            const SizedBox(
-                                              width: 10,
-                                            ),
-                                            ElevatedButton(
-                                              onPressed: () {
-                                                // Cancel and close the modal
-                                                Navigator.pop(context);
-                                              },
-                                              child: const Text('Cancel'),
-                                            ),
-                                          ],
-                                        )
-                                      ],
-                                    ),
-                                  );
-                                },
-                              );
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) =>
+                                      EditModal(type: 'bio', id: id ?? ""));
                             },
                             child: Center(
                                 child: Text(
@@ -272,39 +241,120 @@ class _ProfilePageState extends State<ProfilePage> {
                 padding: const EdgeInsets.only(left: 25, right: 25),
                 child: Column(
                   children: [
-                    user.bio != null
-                        ? Container(
-                            margin: const EdgeInsets.all(10),
-                            padding: const EdgeInsets.all(20),
-                            decoration: BoxDecoration(
-                              color: BrandColor.primary.shade50,
-                              borderRadius: BorderRadius.circular(10),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: BrandColor.primary.withOpacity(0.25),
-                                  offset: const Offset(0, 4),
-                                  blurRadius: 6,
-                                ),
-                              ],
+                    Container(
+                      margin: const EdgeInsets.all(10),
+                      padding: const EdgeInsets.all(20),
+                      decoration: BoxDecoration(
+                        color: BrandColor.primary.shade50,
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: [
+                          BoxShadow(
+                            color: BrandColor.primary.withOpacity(0.25),
+                            offset: const Offset(0, 4),
+                            blurRadius: 6,
+                          ),
+                        ],
+                      ),
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Profile",
+                              style: TextStyle(
+                                  color: BrandColor.background.shade400,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18),
+                              textAlign: TextAlign.start,
                             ),
-                            child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "About Me",
-                                    style: TextStyle(
-                                        color: BrandColor.background.shade400,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 15),
-                                    textAlign: TextAlign.start,
-                                  ),
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  Text(user.bio!)
-                                ]),
-                          )
-                        : const SizedBox(),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Row(children: [
+                              Icon(
+                                Icons.cake,
+                                color: BrandColor.warning.shade600,
+                              ),
+                              const SizedBox(
+                                width: 15,
+                              ),
+                              Text(
+                                "${months[user.birthDay.month - 1]} ${user.birthDay.day}, ${user.birthDay.year}",
+                                style: TextStyle(
+                                  color: BrandColor.background.shade400,
+                                ),
+                              ),
+                              IconButton(
+                                onPressed: () => {
+                                  showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) =>
+                                          EditModal(
+                                              type: 'birthday', id: id ?? ""))
+                                },
+                                icon: const Icon(Icons.edit),
+                                color: BrandColor.background.shade600,
+                                iconSize: 18,
+                              )
+                            ]),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Row(children: [
+                              Icon(Icons.map,
+                                  color: BrandColor.warning.shade600),
+                              const SizedBox(
+                                width: 15,
+                              ),
+                              Text(
+                                user.location.toString(),
+                                style: TextStyle(
+                                  color: BrandColor.background.shade400,
+                                ),
+                              ),
+                              IconButton(
+                                onPressed: () => {
+                                  showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) =>
+                                          EditModal(
+                                              type: 'location', id: id ?? ""))
+                                },
+                                icon: const Icon(Icons.edit),
+                                color: BrandColor.background.shade600,
+                                iconSize: 18,
+                              )
+                            ]),
+                            user.bio != null
+                                ? Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      const SizedBox(
+                                        height: 15,
+                                      ),
+                                      Text(
+                                        "About Me",
+                                        style: TextStyle(
+                                            color:
+                                                BrandColor.background.shade400,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 15),
+                                        textAlign: TextAlign.start,
+                                      ),
+                                      const SizedBox(
+                                        height: 5,
+                                      ),
+                                      Text(
+                                        user.bio!,
+                                        style: TextStyle(
+                                          color: BrandColor.background.shade400,
+                                        ),
+                                      )
+                                    ],
+                                  )
+                                : const SizedBox()
+                          ]),
+                    ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
