@@ -1,13 +1,13 @@
 import "dart:convert";
 
 class Person {
-  String? id;
+  String id;
   String? bio;
   String? userName;
   String firstName;
   String fullName;
-  String? lastName;
-  DateTime? birthDay;
+  String lastName;
+  DateTime birthDay;
   String email;
   List<dynamic> friends = [];
   List<dynamic> friendRequests = [];
@@ -18,7 +18,7 @@ class Person {
       {required this.userName,
       required this.firstName,
       required this.lastName,
-      this.id,
+      required this.id,
       required this.bio,
       required this.birthDay,
       required this.age,
@@ -36,33 +36,13 @@ class Person {
         id: json["id"],
         bio: json["bio"],
         birthDay: json["birthDay"],
-        age: json["age"],
+        age: DateTime.now().year - DateTime.parse(json["birthDay"]).year,
         friends: json["friends"],
         sentFriendRequests: json["sentFriendRequests"],
         friendRequests: json["friendRequests"],
         fullName: '${json["firstName"]} ${json["lastName"]}',
         email: json["email"]);
   }
-
-  /*
-   userName: json["userName"],
-        firstName: json["firstName"],
-        lastName: json["lastName"],
-        id: json["id"],
-        bio: json["bio"],
-        birthDay: json["birthDay"],
-        age: json["age"],
-        friends: json["friends"],
-        sentFriendRequests: json["sentFriendRequests"],
-        friendRequests: json["friendRequests"],
-        fullName: '${json["firstName"]} ${json["lastName"]}',
-        email: json["email"]);
-  */
-
-  /*
-  {id: 8sKx1jzSpehjeUVtMbmtIeMCsZz2, lastName: Tegrado, firstName: Kenneth, sentFriendRequests: [], age: 5, fullName: Kenneth Tegrado, userName: kent, birthDay: null, friends: [], bio: null, email: test@up.edu.ph,
-friendRequests: []}
-  */
 
   static List<Person> fromJsonArray(String jsonData) {
     final Iterable<dynamic> data = jsonDecode(jsonData);
@@ -77,11 +57,12 @@ friendRequests: []}
       "id": person.id,
       "bio": person.bio,
       "birthDay": person.birthDay,
-      "age": person.age,
+      "age": DateTime.now().year - person.birthDay.year,
       "fullName": '$person.firstName $person.lastName',
       "friends": person.friends.toString(),
       "friendRequests": person.friendRequests.toString(),
-      "sentFriendRequests": person.sentFriendRequests.toString()
+      "sentFriendRequests": person.sentFriendRequests.toString(),
+      "email": person.email
     };
   }
 }

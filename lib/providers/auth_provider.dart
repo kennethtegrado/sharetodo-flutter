@@ -63,12 +63,16 @@ class AuthProvider with ChangeNotifier {
       {required String email,
       required String password,
       required String firstName,
-      required String lastName}) async {
+      required String lastName,
+      required String location,
+      required DateTime birthday}) async {
     Response response = await authService.signUp(
         email: email,
         password: password,
         firstName: firstName,
-        lastName: lastName);
+        lastName: lastName,
+        location: location,
+        birthday: birthday);
     _response = response;
     notifyListeners();
     return response;

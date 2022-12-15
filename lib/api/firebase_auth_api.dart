@@ -55,7 +55,9 @@ class FirebaseAuthAPI {
       {required String email,
       required String password,
       required String firstName,
-      required String lastName}) async {
+      required String lastName,
+      required String location,
+      required DateTime birthday}) async {
     UserCredential credential;
     try {
       credential = await auth.createUserWithEmailAndPassword(
@@ -63,8 +65,8 @@ class FirebaseAuthAPI {
         password: password,
       );
       if (credential.user != null) {
-        await saveUserToFirestore(
-            credential.user?.uid, email, firstName, lastName);
+        await saveUserToFirestore(credential.user?.uid, email, firstName,
+            lastName, location, birthday);
       }
       return SuccessResponse("User successfully created!");
     } on FirebaseAuthException catch (e) {
@@ -83,8 +85,8 @@ class FirebaseAuthAPI {
     return ErrorResponse("Something went wrong!", ErrorType.unknownError);
   }
 
-  Future saveUserToFirestore(
-      String? uid, String email, String firstName, String lastName) async {
+  Future saveUserToFirestore(String? uid, String email, String firstName,
+      String lastName, String location, DateTime birthday) async {
     await db.collection("users").doc(uid).set({
       "email": email,
       "id": uid.toString(),
@@ -92,12 +94,12 @@ class FirebaseAuthAPI {
       "lastName": lastName,
       "fullName": "$firstName $lastName",
       "bio": null,
-      "age": null,
-      "birthDay": null,
+      "birthDay": birthday,
       "friends": [],
       "friendRequests": [],
       "sentFriendRequests": [],
-      "userName": "${firstName[0]}$lastName"
+      "userName": "${firstName[0]}$lastName",
+      "location": location,
     });
   }
 }
