@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:week7_networking_discussion/providers/auth_provider.dart';
+import 'package:week7_networking_discussion/providers/todo_provider.dart';
 
 // component import
 import './editProfile.dart';
@@ -513,6 +514,10 @@ class _ProfilePageState extends State<ProfilePage> {
                       child: ElevatedButton(
                         onPressed: () {
                           // Button press logic
+                          context
+                              .read<TodoListProvider>()
+                              .fetchFriendTodos(user.friends);
+
                           Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -542,6 +547,7 @@ class _ProfilePageState extends State<ProfilePage> {
         backgroundColor: BrandColor.primary.shade50,
         child: Icon(Icons.edit, color: BrandColor.primary),
         onPressed: () {
+          context.read<TodoListProvider>().fetchTodos(id!);
           Navigator.push(context,
               MaterialPageRoute(builder: (context) => const TodoPage()));
         },

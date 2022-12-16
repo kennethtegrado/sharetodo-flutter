@@ -6,7 +6,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:week7_networking_discussion/models/todo/index.dart';
 import 'package:week7_networking_discussion/providers/todo_provider.dart';
 
 class TodoModal extends StatelessWidget {
@@ -15,7 +14,7 @@ class TodoModal extends StatelessWidget {
   String? id;
   String? title;
   // int todoIndex;
-  TextEditingController _formFieldController = TextEditingController();
+  final TextEditingController _formFieldController = TextEditingController();
 
   TodoModal(
       {super.key,

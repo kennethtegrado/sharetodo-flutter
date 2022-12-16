@@ -12,23 +12,24 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class TodoListProvider with ChangeNotifier {
   late FirebaseTodoAPI firebaseService;
   late Stream<QuerySnapshot> _todosStream;
-  Todo? _selectedTodo;
+  late Stream<QuerySnapshot> _friendTodosStream;
+  // Todo? _selectedTodo;
 
   TodoListProvider() {
     firebaseService = FirebaseTodoAPI();
-    fetchTodos();
   }
 
   // getter
   Stream<QuerySnapshot> get todos => _todosStream;
-  Todo get selected => _selectedTodo!;
+  Stream<QuerySnapshot> get friendTodos => _friendTodosStream;
 
-  changeSelectedTodo(Todo item) {
-    _selectedTodo = item;
+  void fetchTodos(String id) {
+    _todosStream = firebaseService.getAllTodos(id);
+    notifyListeners();
   }
 
-  void fetchTodos() {
-    _todosStream = firebaseService.getAllTodos();
+  void fetchFriendTodos(List<dynamic> friends) {
+    _friendTodosStream = firebaseService.getFriendsTodos(friends);
     notifyListeners();
   }
 

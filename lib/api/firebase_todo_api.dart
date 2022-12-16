@@ -17,8 +17,12 @@ class FirebaseTodoAPI {
     }
   }
 
-  Stream<QuerySnapshot> getAllTodos() {
-    return todoDatabase.snapshots();
+  Stream<QuerySnapshot> getAllTodos(String id) {
+    return todoDatabase.where("createdBy", isEqualTo: id).snapshots();
+  }
+
+  Stream<QuerySnapshot> getFriendsTodos(List<dynamic> friends) {
+    return todoDatabase.where("createdBy", whereIn: friends).snapshots();
   }
 
   Future<String> deleteTodo(String? id) async {
