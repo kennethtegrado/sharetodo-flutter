@@ -60,6 +60,7 @@ class EditDialog extends StatelessWidget {
                     width: 10,
                   ),
                   IconButton(
+                    key: const Key("EditTitleButton"),
                     onPressed: () {
                       TextEditingController editTitle = TextEditingController();
                       showDialog(
@@ -104,6 +105,7 @@ class EditDialog extends StatelessWidget {
                                           style: TextStyle(
                                               color: BrandColor.primary))),
                                   ElevatedButton(
+                                    key: const Key("submitEditTitleButton"),
                                     onPressed: () async {
                                       // Submit the form and close the dialog
                                       if (_formkey.currentState!.validate()) {
@@ -165,6 +167,7 @@ class EditDialog extends StatelessWidget {
                     width: 10,
                   ),
                   IconButton(
+                    key: const Key("descriptionEditButton"),
                     onPressed: () {
                       TextEditingController descriptionController =
                           TextEditingController();
@@ -210,6 +213,7 @@ class EditDialog extends StatelessWidget {
                                           style: TextStyle(
                                               color: BrandColor.primary))),
                                   ElevatedButton(
+                                    key: const Key("SubmitDescriptionButton"),
                                     onPressed: () async {
                                       // Submit the form and close the dialog
                                       if (_formkey.currentState!.validate()) {
@@ -273,6 +277,7 @@ class EditDialog extends StatelessWidget {
                     width: 10,
                   ),
                   IconButton(
+                    key: const Key("deadlineEditButton"),
                     onPressed: () {
                       TextEditingController deadlineController =
                           TextEditingController();
@@ -285,6 +290,7 @@ class EditDialog extends StatelessWidget {
                                     mainAxisSize: MainAxisSize.min,
                                     children: <Widget>[
                                       TextFormField(
+                                        key: const Key("deadlineFormField"),
                                         decoration: const InputDecoration(
                                           labelText: 'Enter new deadline.',
                                         ),
@@ -325,6 +331,7 @@ class EditDialog extends StatelessWidget {
                                           style: TextStyle(
                                               color: BrandColor.primary))),
                                   ElevatedButton(
+                                    key: const Key("SubmitDeadlineButton"),
                                     onPressed: () async {
                                       // Submit the form and close the dialog
                                       if (_formkey.currentState!.validate()) {
