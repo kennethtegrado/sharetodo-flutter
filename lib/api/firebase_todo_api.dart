@@ -31,9 +31,49 @@ class FirebaseTodoAPI {
     }
   }
 
-  Future toggleTodoStatus(String id, bool status) async {
+  Future toggleTodoStatus(String id, bool status, String userId) async {
     try {
-      await todoDatabase.doc(id).update({"completed": status});
+      await todoDatabase.doc(id).update({
+        "completed": status,
+        "lastEditBy": userId,
+        "lastEditDate": DateTime.now().toString()
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future editTitle(String id, String title, String userId) async {
+    try {
+      await todoDatabase.doc(id).update({
+        "title": title,
+        "lastEditBy": userId,
+        "lastEditDate": DateTime.now().toString()
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future editDescription(String id, String description, String userId) async {
+    try {
+      await todoDatabase.doc(id).update({
+        "description": description,
+        "lastEditBy": userId,
+        "lastEditDate": DateTime.now().toString()
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future editDeadline(String id, String deadline, String userId) async {
+    try {
+      await todoDatabase.doc(id).update({
+        "deadline": deadline,
+        "lastEditBy": userId,
+        "lastEditDate": DateTime.now().toString()
+      });
     } catch (e) {
       print(e);
     }

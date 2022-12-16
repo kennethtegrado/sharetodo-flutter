@@ -33,8 +33,7 @@ class TodoListProvider with ChangeNotifier {
   }
 
   void addTodo(Todo item) async {
-    String message = await firebaseService.addTodo(Todo.toJson(item));
-    print(message);
+    await firebaseService.addTodo(Todo.toJson(item));
     notifyListeners();
   }
 
@@ -44,14 +43,32 @@ class TodoListProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  Future editTitle(String id, String newTitle, String name) async {
+    // _todoList[index].title = newTitle;
+    await firebaseService.editTitle(id, newTitle, name);
+    notifyListeners();
+  }
+
+  Future editDescription(String id, String newDescription, String name) async {
+    // _todoList[index].title = newTitle;
+    await firebaseService.editDescription(id, newDescription, name);
+    notifyListeners();
+  }
+
+  Future editDeadline(String id, String newDeadline, String name) async {
+    // _todoList[index].title = newTitle;
+    await firebaseService.editDeadline(id, newDeadline, name);
+    notifyListeners();
+  }
+
   void deleteTodo(String id) async {
     await firebaseService.deleteTodo(id);
 
     notifyListeners();
   }
 
-  Future toggleStatus(String id, bool status) async {
-    await firebaseService.toggleTodoStatus(id, status);
+  Future toggleStatus(String id, bool status, String userId) async {
+    await firebaseService.toggleTodoStatus(id, status, userId);
     notifyListeners();
   }
 }

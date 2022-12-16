@@ -14,14 +14,16 @@ class AuthProvider with ChangeNotifier {
   late Stream<QuerySnapshot> loggedUser;
   late Stream<QuerySnapshot> clickedFriend;
   String? userId;
+  String? userName;
 
   AuthProvider() {
     authService = FirebaseAuthAPI();
     userService = FirebaseUserAPI();
-    authService.getUser().listen((User? newUser) {
+    authService.getUser().listen((User? newUser) async {
       userObj = newUser;
       userId = userObj?.uid;
       loggedUser = userService.getUser(userObj?.uid ?? "");
+      userName = await userService.getUserName(userId ?? "");
       notifyListeners();
     }, onError: (e) {
       // print a more useful error

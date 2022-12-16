@@ -66,21 +66,6 @@ class TodoModal extends StatelessWidget {
     return TextButton(
       onPressed: () {
         switch (type) {
-          case 'Add':
-            {
-              // Instantiate a todo objeect to be inserted, default userID will be 1, the id will be the next id in the list
-              Todo temp = Todo(
-                  createdBy: createdBy,
-                  completed: false,
-                  title: _formFieldController.text,
-                  dateCreated: DateTime.now());
-
-              context.read<TodoListProvider>().addTodo(temp);
-
-              // Remove dialog after adding
-              Navigator.of(context).pop();
-              break;
-            }
           case 'Edit':
             {
               context
@@ -121,10 +106,10 @@ class TodoModal extends StatelessWidget {
           onPressed: () {
             Navigator.of(context).pop();
           },
-          child: Text("Cancel"),
           style: TextButton.styleFrom(
             textStyle: Theme.of(context).textTheme.labelLarge,
           ),
+          child: const Text("Cancel"),
         ),
       ],
     );

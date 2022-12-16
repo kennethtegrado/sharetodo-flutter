@@ -27,6 +27,18 @@ class FirebaseUserAPI {
     return userDatabase.where("id", isEqualTo: id).snapshots();
   }
 
+  Future<String?> getUserName(String id) async {
+    try {
+      final ref = await userDatabase.doc(id).get();
+
+      final data = ref.data() as Map<String, dynamic>;
+
+      return "${data["firstName"]} ${data["lastName"]}";
+    } catch (e) {
+      print(e);
+    }
+  }
+
   Future<Map<String, dynamic>> createUser(Map<String, dynamic> user) async {
     final newUserRef = await userDatabase.add(user);
     await userDatabase.doc(newUserRef.id).update({"id": newUserRef.id});

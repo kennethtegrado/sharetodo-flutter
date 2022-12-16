@@ -19,14 +19,6 @@ class SignupPage extends StatefulWidget {
 class SignupPageState extends State<SignupPage> {
   final _formKey = GlobalKey<FormState>();
 
-  // DateTime? bday;
-
-  // setBirthday(DateTime birthday) {
-  //   setState(() {
-  //     bday = birthday;
-  //   });
-  // }
-
   @override
   Widget build(BuildContext context) {
     TextEditingController emailController = TextEditingController();
@@ -121,7 +113,6 @@ class SignupPageState extends State<SignupPage> {
       },
     );
 
-  
     final location = TextFormField(
       key: const Key("locationField"),
       controller: locationController,

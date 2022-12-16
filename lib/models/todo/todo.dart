@@ -10,11 +10,13 @@ class Todo {
   String createdBy;
   String? id;
   String title;
+  String description;
   bool completed;
   DateTime dateCreated;
   DateTime? lastEditDate;
-  DateTime? dueDate;
+  DateTime deadline;
   String? lastEditBy;
+  String author;
 
   Todo(
       {required this.createdBy,
@@ -24,7 +26,9 @@ class Todo {
       required this.dateCreated,
       this.lastEditDate,
       this.lastEditBy,
-      this.dueDate});
+      required this.deadline,
+      required this.description,
+      required this.author});
 
   // Factory constructor to instantiate object from json format
   factory Todo.fromJson(Map<String, dynamic> json) {
@@ -34,10 +38,13 @@ class Todo {
       title: json['title'],
       completed: json['completed'],
       dateCreated: DateTime.parse(json["dateCreated"]),
-      // lastEditDate:
-      //     json['lastEditDate'] ?? DateTime.parse(json["lastEditDate"]),
-      // lastEditBy: json['lastEditBy'],
-      // dueDate: json['dueDate'],
+      deadline: DateTime.parse(json["deadline"]),
+      description: json["description"],
+      lastEditDate: json['lastEditDate'] == null
+          ? null
+          : DateTime.parse(json["lastEditDate"]),
+      lastEditBy: json['lastEditBy'],
+      author: json['author'],
     );
   }
 
@@ -54,7 +61,9 @@ class Todo {
       'dateCreated': todo.dateCreated.toString(),
       'lastEditDate': todo.lastEditDate,
       'lastEditBy': todo.lastEditBy,
-      "dueDate": todo.dueDate
+      "deadline": todo.deadline.toString(),
+      "description": todo.description,
+      "author": todo.author
     };
   }
 }

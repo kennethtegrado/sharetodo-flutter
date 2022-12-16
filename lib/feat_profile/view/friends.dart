@@ -14,6 +14,9 @@ import 'package:week7_networking_discussion/providers/index.dart';
 // model
 import 'package:week7_networking_discussion/models/index.dart';
 
+// brand color
+import 'package:week7_networking_discussion/config/theme/index.dart';
+
 class FriendsPage extends StatefulWidget {
   const FriendsPage({super.key});
 
@@ -28,7 +31,14 @@ class _FriendsPageState extends State<FriendsPage> {
     String? userID = context.watch<AuthProvider>().userId;
 
     return Scaffold(
-      appBar: AppBar(title: const Text("Friends")),
+      appBar: AppBar(
+        title: Text("Friends",
+            style: TextStyle(
+                color: BrandColor.primary.shade50,
+                fontWeight: FontWeight.w700)),
+        backgroundColor: BrandColor.primary,
+        leading: BackButton(color: BrandColor.primary.shade50),
+      ),
       body: Container(
           margin: const EdgeInsets.all(30),
           child: StreamBuilder(
@@ -82,20 +92,18 @@ class _FriendsPageState extends State<FriendsPage> {
                               Row(
                                 children: [
                                   Container(
-                                    decoration: const BoxDecoration(
-                                        borderRadius: BorderRadius.all(
+                                    decoration: BoxDecoration(
+                                        borderRadius: const BorderRadius.all(
                                             Radius.circular(100)),
-                                        color:
-                                            Color.fromARGB(255, 201, 203, 204)),
+                                        color: BrandColor.primary),
                                     // padding: EdgeInsets.all(20),
                                     width: 50,
                                     height: 50,
                                     child: Center(
                                         child: Text(
                                       user.firstName[0].toUpperCase(),
-                                      style: const TextStyle(
-                                          color:
-                                              Color.fromARGB(255, 32, 32, 35),
+                                      style: TextStyle(
+                                          color: BrandColor.primary.shade50,
                                           fontSize: 20,
                                           fontWeight: FontWeight.w900),
                                     )),
@@ -138,12 +146,12 @@ class _FriendsPageState extends State<FriendsPage> {
                                 style: OutlinedButton.styleFrom(
                                     shape: const CircleBorder(),
                                     padding: const EdgeInsets.all(1),
-                                    side: const BorderSide(
-                                        width: 1.0, color: Colors.red),
+                                    side: BorderSide(
+                                        width: 1.0, color: BrandColor.error),
                                     fixedSize: const Size(35, 35)),
-                                child: const Icon(
+                                child: Icon(
                                   Icons.person_remove_outlined,
-                                  color: Colors.red,
+                                  color: BrandColor.error,
                                   size: 18,
                                 ),
                               ),
