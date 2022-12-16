@@ -118,12 +118,19 @@ class _TodoPageState extends State<TodoPage> {
                       SnackBar(content: Text('${todo.title} dismissed')));
                 },
                 background: Container(
-                  color: Colors.red,
-                  child: const Icon(Icons.delete),
+                  color: BrandColor.error,
+                  child: Icon(
+                    Icons.delete,
+                    color: BrandColor.primary.shade50,
+                  ),
                 ),
                 child: ListTile(
                   title: InkWell(
-                    child: Text(todo.title),
+                    child: Text(
+                      todo.title,
+                      style: TextStyle(
+                          color: BrandColor.background.shade700, fontSize: 15),
+                    ),
                     onTap: () {
                       showDialog(
                           context: context,
@@ -203,19 +210,32 @@ class _TodoPageState extends State<TodoPage> {
                                                                 ),
                                                               ),
                                                               actions: <Widget>[
+                                                                OutlinedButton(
+                                                                    onPressed:
+                                                                        () {
+                                                                      Navigator.of(
+                                                                              context)
+                                                                          .pop();
+                                                                    },
+                                                                    style: OutlinedButton
+                                                                        .styleFrom(
+                                                                      shape:
+                                                                          RoundedRectangleBorder(
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(18.0),
+                                                                      ),
+                                                                      side: BorderSide(
+                                                                          width:
+                                                                              2,
+                                                                          color:
+                                                                              BrandColor.primary),
+                                                                    ),
+                                                                    child: Text(
+                                                                        'Cancel',
+                                                                        style: TextStyle(
+                                                                            color:
+                                                                                BrandColor.primary))),
                                                                 ElevatedButton(
-                                                                  child: const Text(
-                                                                      'Cancel'),
-                                                                  onPressed:
-                                                                      () {
-                                                                    Navigator.of(
-                                                                            context)
-                                                                        .pop();
-                                                                  },
-                                                                ),
-                                                                ElevatedButton(
-                                                                  child: const Text(
-                                                                      'Submit'),
                                                                   onPressed:
                                                                       () async {
                                                                     // Submit the form and close the dialog
@@ -239,6 +259,14 @@ class _TodoPageState extends State<TodoPage> {
                                                                           context);
                                                                     }
                                                                   },
+                                                                  style: ButtonStyle(
+                                                                      backgroundColor: MaterialStateProperty.all(BrandColor.primary),
+                                                                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(18.0),
+                                                                      ))),
+                                                                  child: const Text(
+                                                                      'Submit'),
                                                                 ),
                                                               ],
                                                             ));
@@ -321,19 +349,32 @@ class _TodoPageState extends State<TodoPage> {
                                                                 ),
                                                               ),
                                                               actions: <Widget>[
+                                                                OutlinedButton(
+                                                                    onPressed:
+                                                                        () {
+                                                                      Navigator.of(
+                                                                              context)
+                                                                          .pop();
+                                                                    },
+                                                                    style: OutlinedButton
+                                                                        .styleFrom(
+                                                                      shape:
+                                                                          RoundedRectangleBorder(
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(18.0),
+                                                                      ),
+                                                                      side: BorderSide(
+                                                                          width:
+                                                                              2,
+                                                                          color:
+                                                                              BrandColor.primary),
+                                                                    ),
+                                                                    child: Text(
+                                                                        'Cancel',
+                                                                        style: TextStyle(
+                                                                            color:
+                                                                                BrandColor.primary))),
                                                                 ElevatedButton(
-                                                                  child: const Text(
-                                                                      'Cancel'),
-                                                                  onPressed:
-                                                                      () {
-                                                                    Navigator.of(
-                                                                            context)
-                                                                        .pop();
-                                                                  },
-                                                                ),
-                                                                ElevatedButton(
-                                                                  child: const Text(
-                                                                      'Submit'),
                                                                   onPressed:
                                                                       () async {
                                                                     // Submit the form and close the dialog
@@ -357,6 +398,14 @@ class _TodoPageState extends State<TodoPage> {
                                                                           context);
                                                                     }
                                                                   },
+                                                                  style: ButtonStyle(
+                                                                      backgroundColor: MaterialStateProperty.all(BrandColor.primary),
+                                                                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(18.0),
+                                                                      ))),
+                                                                  child: const Text(
+                                                                      'Submit'),
                                                                 ),
                                                               ],
                                                             ));
@@ -448,19 +497,32 @@ class _TodoPageState extends State<TodoPage> {
                                                                 ),
                                                               ),
                                                               actions: <Widget>[
+                                                                OutlinedButton(
+                                                                    onPressed:
+                                                                        () {
+                                                                      Navigator.of(
+                                                                              context)
+                                                                          .pop();
+                                                                    },
+                                                                    style: OutlinedButton
+                                                                        .styleFrom(
+                                                                      shape:
+                                                                          RoundedRectangleBorder(
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(18.0),
+                                                                      ),
+                                                                      side: BorderSide(
+                                                                          width:
+                                                                              2,
+                                                                          color:
+                                                                              BrandColor.primary),
+                                                                    ),
+                                                                    child: Text(
+                                                                        'Cancel',
+                                                                        style: TextStyle(
+                                                                            color:
+                                                                                BrandColor.primary))),
                                                                 ElevatedButton(
-                                                                  child: const Text(
-                                                                      'Cancel'),
-                                                                  onPressed:
-                                                                      () {
-                                                                    Navigator.of(
-                                                                            context)
-                                                                        .pop();
-                                                                  },
-                                                                ),
-                                                                ElevatedButton(
-                                                                  child: const Text(
-                                                                      'Submit'),
                                                                   onPressed:
                                                                       () async {
                                                                     // Submit the form and close the dialog
@@ -484,6 +546,14 @@ class _TodoPageState extends State<TodoPage> {
                                                                           context);
                                                                     }
                                                                   },
+                                                                  style: ButtonStyle(
+                                                                      backgroundColor: MaterialStateProperty.all(BrandColor.primary),
+                                                                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(18.0),
+                                                                      ))),
+                                                                  child: const Text(
+                                                                      'Submit'),
                                                                 ),
                                                               ],
                                                             ));
@@ -575,14 +645,18 @@ class _TodoPageState extends State<TodoPage> {
                               ));
                     },
                   ),
-                  leading: Checkbox(
-                    value: todo.completed,
-                    onChanged: (bool? value) async {
-                      await context
-                          .read<TodoListProvider>()
-                          .toggleStatus(todo.id ?? "", value!, userName ?? "");
-                    },
-                  ),
+                  leading: Theme(
+                      data: ThemeData(
+                          unselectedWidgetColor: BrandColor.primary.shade500),
+                      child: Checkbox(
+                        value: todo.completed,
+                        onChanged: (bool? value) async {
+                          await context.read<TodoListProvider>().toggleStatus(
+                              todo.id ?? "", value!, userName ?? "");
+                        },
+                        activeColor: BrandColor.primary,
+                        checkColor: BrandColor.primary.shade50,
+                      )),
                   trailing: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -597,7 +671,10 @@ class _TodoPageState extends State<TodoPage> {
                                 title: todo.title),
                           );
                         },
-                        icon: const Icon(Icons.delete_outlined),
+                        icon: Icon(
+                          Icons.delete_outlined,
+                          color: BrandColor.error,
+                        ),
                       )
                     ],
                   ),
@@ -678,9 +755,16 @@ class _TodoPageState extends State<TodoPage> {
                           Navigator.of(context).pop();
                         },
                         style: OutlinedButton.styleFrom(
-                            side: BorderSide(
-                                width: 3, color: BrandColor.primary)),
-                        child: const Text('Cancel'),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(18.0),
+                          ),
+                          side: BorderSide(width: 2, color: BrandColor.primary),
+                        ),
+                        child: Text('Cancel',
+                            style: TextStyle(color: BrandColor.primary)),
+                      ),
+                      const SizedBox(
+                        width: 10,
                       ),
                       ElevatedButton(
                           onPressed: () {
@@ -699,8 +783,14 @@ class _TodoPageState extends State<TodoPage> {
                               Navigator.pop(context);
                             }
                           },
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor: BrandColor.primary),
+                          style: ButtonStyle(
+                              backgroundColor:
+                                  MaterialStateProperty.all(BrandColor.primary),
+                              shape: MaterialStateProperty.all<
+                                      RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(18.0),
+                              ))),
                           child: const Text('Submit')),
                     ],
                   ));
