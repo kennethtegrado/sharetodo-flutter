@@ -52,38 +52,13 @@ class _TodoPageState extends State<TodoPage> {
 
     return Scaffold(
       backgroundColor: BrandColor.primary.shade50,
-      drawer: Drawer(
-          child: ListView(padding: EdgeInsets.zero, children: [
-        ListTile(
-          title: const Text('Logout'),
-          onTap: () {
-            context.read<AuthProvider>().signOut();
-            Navigator.pop(context);
-            Navigator.pop(context);
-          },
-        ),
-        ListTile(
-          title: const Text('Profile'),
-          onTap: () {
-            Navigator.pop(context);
-            Navigator.pop(context);
-          },
-        )
-      ])),
       appBar: AppBar(
-        title: Text(
-          "Todo",
-          style: TextStyle(
-              color: BrandColor.primary.shade50, fontWeight: FontWeight.w700),
-        ),
-        leading: Builder(
-            builder: (context) => IconButton(
-                  icon: const Icon(Icons.sort),
-                  color: BrandColor.primary.shade50,
-                  onPressed: () => Scaffold.of(context).openDrawer(),
-                )),
+        title: Text("Todos",
+            style: TextStyle(
+                color: BrandColor.primary.shade50,
+                fontWeight: FontWeight.w700)),
         backgroundColor: BrandColor.primary,
-        shadowColor: BrandColor.primary.shade600,
+        leading: BackButton(color: BrandColor.primary.shade50),
       ),
       body: StreamBuilder(
         stream: todosStream,
