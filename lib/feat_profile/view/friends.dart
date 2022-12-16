@@ -61,10 +61,12 @@ class _FriendsPageState extends State<FriendsPage> {
                     snapshot.data?.docs;
 
                 if (docs != null && docs.isEmpty) {
-                  return const Center(
+                  return Center(
                     child: Text("No Friends Found",
                         style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold)),
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: BrandColor.background.shade800)),
                   );
                 }
               }
@@ -117,11 +119,17 @@ class _FriendsPageState extends State<FriendsPage> {
                                       children: [
                                         Text(
                                           "${user.firstName} ${user.lastName}",
-                                          style: const TextStyle(
+                                          style: TextStyle(
                                               fontSize: 20,
-                                              fontWeight: FontWeight.bold),
+                                              fontWeight: FontWeight.bold,
+                                              color: BrandColor
+                                                  .background.shade500),
                                         ),
-                                        Text("@${user.userName}")
+                                        Text(
+                                          "@${user.userName}",
+                                          style: TextStyle(
+                                              color: BrandColor.primary),
+                                        )
                                       ]),
                                 ],
                               ),
@@ -130,6 +138,7 @@ class _FriendsPageState extends State<FriendsPage> {
                                   showDialog(
                                       context: context,
                                       builder: ((context) => ConfirmModal(
+                                          passive: true,
                                           title: "Unfriend @${user.userName}",
                                           modalBody:
                                               "Are you sure you want to unfriend ${user.firstName}?",

@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 
 // component import
 import 'package:week7_networking_discussion/components/index.dart';
+import 'package:week7_networking_discussion/config/theme/index.dart';
 import 'package:week7_networking_discussion/providers/auth_provider.dart';
 
 // provder
@@ -28,7 +29,14 @@ class _FriendRequestPageState extends State<FriendRequestPage> {
     String? loggedUserID = context.watch<AuthProvider>().userId;
 
     return Scaffold(
-      appBar: AppBar(title: const Text("Friend Requests")),
+      appBar: AppBar(
+        title: Text("Friend Requests",
+            style: TextStyle(
+                color: BrandColor.primary.shade50,
+                fontWeight: FontWeight.w700)),
+        backgroundColor: BrandColor.primary,
+        leading: BackButton(color: BrandColor.primary.shade50),
+      ),
       body: Container(
           margin: const EdgeInsets.all(30),
           child: StreamBuilder(
@@ -43,18 +51,24 @@ class _FriendRequestPageState extends State<FriendRequestPage> {
                   child: CircularProgressIndicator(),
                 );
               } else if (!snapshot.hasData) {
-                return const Center(
-                  child: Text("No Friend Requests Found"),
+                return Center(
+                  child: Text("No Friend Requests Found",
+                      style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: BrandColor.background.shade800)),
                 );
               } else if (snapshot.data != null && snapshot.data?.docs != null) {
                 List<QueryDocumentSnapshot<Object?>>? docs =
                     snapshot.data?.docs;
 
                 if (docs != null && docs.isEmpty) {
-                  return const Center(
+                  return Center(
                     child: Text("No Friend Requests Found",
                         style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold)),
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: BrandColor.background.shade800)),
                   );
                 }
               }
@@ -74,19 +88,18 @@ class _FriendRequestPageState extends State<FriendRequestPage> {
                             Row(
                               children: [
                                 Container(
-                                  decoration: const BoxDecoration(
-                                      borderRadius: BorderRadius.all(
+                                  decoration: BoxDecoration(
+                                      borderRadius: const BorderRadius.all(
                                           Radius.circular(100)),
-                                      color:
-                                          Color.fromARGB(255, 201, 203, 204)),
+                                      color: BrandColor.primary),
                                   // padding: EdgeInsets.all(20),
                                   width: 50,
                                   height: 50,
                                   child: Center(
                                       child: Text(
                                     requesterUser.firstName[0].toUpperCase(),
-                                    style: const TextStyle(
-                                        color: Color.fromARGB(255, 32, 32, 35),
+                                    style: TextStyle(
+                                        color: BrandColor.primary.shade50,
                                         fontSize: 20,
                                         fontWeight: FontWeight.w900),
                                   )),
@@ -100,11 +113,17 @@ class _FriendRequestPageState extends State<FriendRequestPage> {
                                     children: [
                                       Text(
                                         "${requesterUser.firstName} ${requesterUser.lastName}",
-                                        style: const TextStyle(
+                                        style: TextStyle(
                                             fontSize: 20,
-                                            fontWeight: FontWeight.bold),
+                                            fontWeight: FontWeight.bold,
+                                            color:
+                                                BrandColor.background.shade500),
                                       ),
-                                      Text("@${requesterUser.userName}")
+                                      Text(
+                                        "@${requesterUser.userName}",
+                                        style: TextStyle(
+                                            color: BrandColor.primary),
+                                      )
                                     ]),
                               ],
                             ),
@@ -115,6 +134,7 @@ class _FriendRequestPageState extends State<FriendRequestPage> {
                                     showDialog(
                                         context: context,
                                         builder: (context) => ConfirmModal(
+                                            passive: false,
                                             title:
                                                 "Accept @${requesterUser.userName} as friend",
                                             modalBody:
@@ -133,8 +153,10 @@ class _FriendRequestPageState extends State<FriendRequestPage> {
                                   style: ElevatedButton.styleFrom(
                                       fixedSize: const Size(30, 30),
                                       shape: const CircleBorder(),
-                                      backgroundColor: Colors.green,
-                                      foregroundColor: Colors.white),
+                                      backgroundColor:
+                                          BrandColor.success.shade700,
+                                      foregroundColor:
+                                          BrandColor.primary.shade50),
                                   child: const Icon(
                                     Icons.check,
                                     size: 15,
@@ -145,6 +167,7 @@ class _FriendRequestPageState extends State<FriendRequestPage> {
                                     showDialog(
                                         context: context,
                                         builder: (context) => ConfirmModal(
+                                            passive: true,
                                             title:
                                                 "Reject @${requesterUser.userName} as friend",
                                             modalBody:
@@ -163,8 +186,9 @@ class _FriendRequestPageState extends State<FriendRequestPage> {
                                   style: ElevatedButton.styleFrom(
                                       fixedSize: const Size(30, 30),
                                       shape: const CircleBorder(),
-                                      backgroundColor: Colors.red,
-                                      foregroundColor: Colors.white),
+                                      backgroundColor: BrandColor.error,
+                                      foregroundColor:
+                                          BrandColor.primary.shade50),
                                   child: const Icon(
                                     Icons.delete,
                                     size: 15,

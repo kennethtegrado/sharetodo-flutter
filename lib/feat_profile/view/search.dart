@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 // component import
 import 'package:week7_networking_discussion/components/index.dart';
+import 'package:week7_networking_discussion/config/index.dart';
 import 'package:week7_networking_discussion/providers/auth_provider.dart';
 
 // provider
@@ -31,7 +32,13 @@ class SearchPageState extends State<SearchPage> {
     String? requesterUserID = context.watch<AuthProvider>().userId;
 
     return Scaffold(
-      appBar: AppBar(title: const Text("Search Page")),
+      appBar: AppBar(
+          title: Text("Search People",
+              style: TextStyle(
+                  color: BrandColor.primary.shade50,
+                  fontWeight: FontWeight.w700)),
+          backgroundColor: BrandColor.primary,
+          leading: BackButton(color: BrandColor.primary.shade50)),
       body: Container(
           margin: const EdgeInsets.all(30),
           child: StreamBuilder(
@@ -69,8 +76,9 @@ class SearchPageState extends State<SearchPage> {
                     children: [
                       TextFormField(
                         decoration: const InputDecoration(
-                            prefixIcon: Icon(Icons.search),
-                            hintText: "Find friend by display name..."),
+                          prefixIcon: Icon(Icons.search),
+                          hintText: "Find friend by display name...",
+                        ),
                         onFieldSubmitted: (value) {
                           setState(() {
                             _searchField = value;
@@ -83,9 +91,12 @@ class SearchPageState extends State<SearchPage> {
                 const SizedBox(
                   height: 20,
                 ),
-                const Text(
+                Text(
                   "People you might know",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                      color: BrandColor.background.shade700),
                 ),
                 const SizedBox(
                   height: 20,
@@ -123,21 +134,20 @@ class SearchPageState extends State<SearchPage> {
                               Row(
                                 children: [
                                   Container(
-                                    decoration: const BoxDecoration(
-                                        borderRadius: BorderRadius.all(
+                                    decoration: BoxDecoration(
+                                        borderRadius: const BorderRadius.all(
                                             Radius.circular(100)),
-                                        color:
-                                            Color.fromARGB(255, 201, 203, 204)),
+                                        color: BrandColor.primary),
                                     width: 50,
                                     height: 50,
                                     child: Center(
                                         child: Text(
                                       receiverUser.firstName[0].toUpperCase(),
-                                      style: const TextStyle(
-                                          color:
-                                              Color.fromARGB(255, 32, 32, 35),
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.w900),
+                                      style: TextStyle(
+                                        color: BrandColor.primary.shade50,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w900,
+                                      ),
                                     )),
                                   ),
                                   const SizedBox(
@@ -149,11 +159,17 @@ class SearchPageState extends State<SearchPage> {
                                       children: [
                                         Text(
                                           "${receiverUser.firstName} ${receiverUser.lastName}",
-                                          style: const TextStyle(
+                                          style: TextStyle(
                                               fontSize: 20,
-                                              fontWeight: FontWeight.bold),
+                                              fontWeight: FontWeight.bold,
+                                              color: BrandColor
+                                                  .background.shade500),
                                         ),
-                                        Text("@${receiverUser.userName}")
+                                        Text(
+                                          "@${receiverUser.userName}",
+                                          style: TextStyle(
+                                              color: BrandColor.primary),
+                                        )
                                       ]),
                                 ],
                               ),
@@ -162,6 +178,7 @@ class SearchPageState extends State<SearchPage> {
                                   showDialog(
                                       context: context,
                                       builder: ((context) => ConfirmModal(
+                                          passive: false,
                                           title:
                                               "Send friend request to @${receiverUser.userName}",
                                           modalBody:
@@ -181,12 +198,13 @@ class SearchPageState extends State<SearchPage> {
                                 style: OutlinedButton.styleFrom(
                                     shape: const CircleBorder(),
                                     padding: const EdgeInsets.all(1),
-                                    side: const BorderSide(
-                                        width: 1.0, color: Colors.green),
+                                    side: BorderSide(
+                                        width: 1.0,
+                                        color: BrandColor.success.shade700),
                                     fixedSize: const Size(35, 35)),
-                                child: const Icon(
+                                child: Icon(
                                   Icons.person_add,
-                                  color: Colors.green,
+                                  color: BrandColor.success.shade700,
                                   size: 18,
                                 ),
                               )

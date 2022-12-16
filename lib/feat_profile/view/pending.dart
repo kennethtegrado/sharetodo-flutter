@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 
 // component import
 import 'package:week7_networking_discussion/components/index.dart';
+import 'package:week7_networking_discussion/config/theme/index.dart';
 import 'package:week7_networking_discussion/providers/auth_provider.dart';
 
 // provider
@@ -28,7 +29,13 @@ class PendingRequestsPageState extends State<PendingRequestsPage> {
     String? requesterUserID = context.watch<AuthProvider>().userId;
 
     return Scaffold(
-      appBar: AppBar(title: const Text("Pending Friend Requests")),
+      appBar: AppBar(
+          title: Text("Pending Requests",
+              style: TextStyle(
+                  color: BrandColor.primary.shade50,
+                  fontWeight: FontWeight.w700)),
+          backgroundColor: BrandColor.primary,
+          leading: BackButton(color: BrandColor.primary.shade50)),
       body: Container(
           margin: const EdgeInsets.all(30),
           child: StreamBuilder(
@@ -100,11 +107,17 @@ class PendingRequestsPageState extends State<PendingRequestsPage> {
                                     children: [
                                       Text(
                                         "${receiverUser.firstName} ${receiverUser.lastName}",
-                                        style: const TextStyle(
+                                        style: TextStyle(
                                             fontSize: 20,
-                                            fontWeight: FontWeight.bold),
+                                            fontWeight: FontWeight.bold,
+                                            color:
+                                                BrandColor.background.shade500),
                                       ),
-                                      Text("@${receiverUser.userName}")
+                                      Text(
+                                        "@${receiverUser.userName}",
+                                        style: TextStyle(
+                                            color: BrandColor.primary),
+                                      )
                                     ]),
                               ],
                             ),
@@ -113,6 +126,7 @@ class PendingRequestsPageState extends State<PendingRequestsPage> {
                                 showDialog(
                                     context: context,
                                     builder: ((context) => ConfirmModal(
+                                        passive: true,
                                         title:
                                             "Cancel friend request to @${receiverUser.userName}",
                                         modalBody:
@@ -131,12 +145,12 @@ class PendingRequestsPageState extends State<PendingRequestsPage> {
                               style: OutlinedButton.styleFrom(
                                   shape: const CircleBorder(),
                                   padding: const EdgeInsets.all(1),
-                                  side: const BorderSide(
-                                      width: 1.0, color: Colors.red),
+                                  side: BorderSide(
+                                      width: 1.0, color: BrandColor.error),
                                   fixedSize: const Size(35, 35)),
-                              child: const Icon(
+                              child: Icon(
                                 Icons.delete,
-                                color: Colors.red,
+                                color: BrandColor.error,
                                 size: 18,
                               ),
                             ),
