@@ -59,16 +59,6 @@ class _ProfilePageState extends State<ProfilePage> {
 
     return Scaffold(
       backgroundColor: BrandColor.primary.shade50,
-      drawer: Drawer(
-          child: ListView(padding: EdgeInsets.zero, children: [
-        ListTile(
-          title: const Text('Logout'),
-          onTap: () {
-            context.read<AuthProvider>().signOut();
-            Navigator.pop(context);
-          },
-        ),
-      ])),
       appBar: AppBar(
         title: Text(
           "Profile",
@@ -78,9 +68,9 @@ class _ProfilePageState extends State<ProfilePage> {
         ),
         leading: Builder(
             builder: (context) => IconButton(
-                  icon: const Icon(Icons.sort),
+                  icon: const Icon(Icons.logout),
                   color: BrandColor.background.shade600,
-                  onPressed: () => Scaffold.of(context).openDrawer(),
+                  onPressed: () => context.read<AuthProvider>().signOut(),
                 )),
         backgroundColor: BrandColor.primary.shade50,
         shadowColor: const Color.fromRGBO(255, 255, 255, 1).withOpacity(0),
