@@ -1,6 +1,7 @@
 // lib import
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:week7_networking_discussion/config/theme/index.dart';
 import 'package:week7_networking_discussion/utils/response.dart';
 
 // provider import
@@ -59,6 +60,12 @@ class LoginPageState extends State<LoginPage> {
             context.read<AuthProvider>().resetResponse();
           }
         },
+        style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all(BrandColor.primary),
+            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(18.0),
+            ))),
         child: const Text('Log In', style: TextStyle(color: Colors.white)),
       ),
     );
@@ -66,7 +73,7 @@ class LoginPageState extends State<LoginPage> {
     final signUpButton = Padding(
       key: const Key("signUpButton"),
       padding: const EdgeInsets.symmetric(vertical: 16.0),
-      child: ElevatedButton(
+      child: OutlinedButton(
         onPressed: () async {
           Navigator.of(context).push(
             MaterialPageRoute(
@@ -74,7 +81,13 @@ class LoginPageState extends State<LoginPage> {
             ),
           );
         },
-        child: const Text('Sign Up', style: TextStyle(color: Colors.white)),
+        style: OutlinedButton.styleFrom(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(18.0),
+          ),
+          side: BorderSide(width: 2, color: BrandColor.primary),
+        ),
+        child: Text('Sign Up', style: TextStyle(color: BrandColor.primary)),
       ),
     );
 

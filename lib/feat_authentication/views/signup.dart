@@ -157,19 +157,26 @@ class SignupPageState extends State<SignupPage> {
             }
           }
         },
+        style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all(BrandColor.primary),
+            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(18.0),
+            ))),
         child: const Text('Sign up', style: TextStyle(color: Colors.white)),
       ),
     );
 
     final backButton = Padding(
       padding: const EdgeInsets.symmetric(vertical: 16.0),
-      child: ElevatedButton(
+      child: TextButton(
         key: const Key("backButton"),
         onPressed: () async {
           Navigator.pop(context);
           //call the auth provider here
         },
-        child: const Text('Back', style: TextStyle(color: Colors.white)),
+        child: Text('Back',
+            style: TextStyle(color: BrandColor.background.shade300)),
       ),
     );
 
