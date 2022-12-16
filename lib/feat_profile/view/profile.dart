@@ -15,6 +15,7 @@ import './friends.dart';
 import './pending.dart';
 import './search.dart';
 import 'package:week7_networking_discussion/feat_todo/view/todo_page.dart';
+import 'package:week7_networking_discussion/feat_todo/view/todo_friends.dart';
 
 // provider
 import 'package:week7_networking_discussion/providers/user_provider.dart';
@@ -512,6 +513,11 @@ class _ProfilePageState extends State<ProfilePage> {
                       child: ElevatedButton(
                         onPressed: () {
                           // Button press logic
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const TodoFriendsPage()));
                         },
                         style: ElevatedButton.styleFrom(
                             backgroundColor: BrandColor.primary,

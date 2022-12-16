@@ -20,15 +20,14 @@ class AuthProvider with ChangeNotifier {
     authService = FirebaseAuthAPI();
     userService = FirebaseUserAPI();
     authService.getUser().listen((User? newUser) async {
-      if (newUser == null) {
-        return;
-      }
-
       userObj = newUser;
       userId = userObj?.uid;
 
-      loggedUser = userService.getUser(userObj?.uid ?? "");
-      userName = await userService.getUserName(userId ?? "");
+      if (newUser != null) {
+        loggedUser = userService.getUser(userObj?.uid ?? "");
+        userName = await userService.getUserName(userId ?? "");
+      }
+
       notifyListeners();
     }, onError: (e) {
       // print a more useful error
