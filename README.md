@@ -10,14 +10,14 @@
 
 -   D6L
 
-<summary>
-</summary>
-
 ## <!-- PROJECT SPECS -->
 
 ---
 
-# Final Project
+# SharedToDo - Final Project
+
+![Profile Page](./screenshots/profile_page.jpg)
+![Sign Up Page](./screenshots/sign-in_page.jpg)
 
 This is a social media application built with Firebase as a backend service and Flutter for the UI look of the application. It utilizes the built-in CRUD methods on Firestore to create a seemingly flawless Social Media Todo Application.
 
